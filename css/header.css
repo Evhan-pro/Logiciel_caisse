@@ -1,0 +1,300 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a,
+img,
+span,
+data,
+button,
+ion-icon {
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    height: auto;
+}
+
+button {
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+}
+
+.menu {
+    width: 70%;
+}
+
+html {
+    font-family: var(--ff-syne);
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: transparent;
+    line-height: 1.75;
+}
+
+body.loaded {
+    overflow: overlay;
+}
+
+body.nav-active {
+    overflow: hidden;
+}
+
+ ::-webkit-scrollbar {
+    width: 5px;
+}
+
+ ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+ ::-webkit-scrollbar-thumb {
+    background-color: var(--white);
+    border-radius: 20px;
+}
+
+.container {
+    padding-inline: 12px;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.btn::before {
+    width: 70px;
+    height: 70px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    border: 2px solid var(--white_a5);
+    border-radius: var(--radius-circle);
+    transition: var(--cubic-bounce);
+}
+
+.btn:is(:hover, :focus-visible)::before {
+    left: calc(100% - 70px);
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #68dcfc;
+    padding-block: 24px;
+    z-index: 4;
+    transition: var(--transition-1);
+}
+
+.header.active {
+    padding-block: 16px;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.recouvrir {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: none;
+}
+
+.recouvrir.active {
+    display: block;
+}
+
+@media (min-width: 575px) {
+    .container {
+        max-width: 570px;
+        width: 100%;
+        margin-inline: auto;
+    }
+}
+
+@media (min-width: 768px) {
+     :root {
+        --fs-2: 6rem;
+        --fs-3: 5.5rem;
+    }
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .menu {
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 992px) {
+     :root {
+        --fs-3: 7rem;
+    }
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+     :root {
+        --section-padding: 140px;
+    }
+    .container {
+        max-width: 1140px;
+    }
+    .recouvrir {
+        top: 0;
+    }
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* Bouton Scroll UP */
+
+#scrollUp {
+    position: fixed;
+    bottom: 10px;
+    right: -100px;
+    opacity: 0.5;
+}
+
+
+/*Début Header*/
+
+.home {
+    padding-top: 10px;
+    padding-left: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0px;
+    backdrop-filter: blur(5px);
+    z-index: 2;
+}
+
+.menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 20px;
+}
+
+.menu {
+    margin: 10px auto;
+    width: 800px;
+    width: fit-content;
+}
+
+.menu>li {
+    float: left;
+    position: relative;
+    transform: skewX(25deg);
+}
+
+.menu .plongee {
+    background: #2ECBF6;
+}
+
+.menu .gonflage {
+    background: #CFF0FF;
+}
+
+.menu .carte {
+    background: #D9D9D9;
+}
+
+.menu .restaurant {
+    background: #BB9990;
+}
+
+.menu .formation {
+    background: #9A94AE;
+}
+
+.menu .hebergement {
+    background: #FFD121;
+}
+
+.menu .boutique {
+    background: #C42931;
+}
+
+.menu .menu a {
+    display: block;
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: Arial, Helvetica;
+    font-size: 14px;
+}
+
+.menu>li>a {
+    transform: skewX(-25deg);
+    padding: 0.5em 1em;
+}
+
+
+/*Fin Header*/
+
+
+/* Début Flèche vers le haut */
+
+.btn {
+    height: 50px;
+    width: 50px;
+    background: #525252;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    cursor: pointer;
+}
+
+.icone {
+    width: 30%;
+    border-radius: 50%;
+}
+
+
+/* Fin Flèche vers le haut */
+
+
+/*Bouton nom client*/
+
+.client {
+    padding: 50px;
+    text-align: center;
+}

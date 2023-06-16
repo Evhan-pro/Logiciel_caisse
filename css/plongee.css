@@ -1,0 +1,177 @@
+/* Styles généraux */
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 100%;
+}
+
+body {
+    line-height: 1;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background: #b3b8cc;
+}
+
+
+/* Styles spécifiques à la page */
+
+#plongee {
+    padding-top: 10%;
+    font-size: 24px;
+}
+
+.page_plongee,
+.page_gonflage {
+    padding-top: 10%;
+}
+
+.page_plongee .ligne,
+.page_gonflage .ligne {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.produit {
+    text-align: center;
+    width: calc(33.33% - 4%);
+    margin: 2%;
+    padding: 2%;
+    height: 200px;
+    color: white;
+    background-color: #2ECBF6;
+    font-size: 20px;
+    position: relative;
+    /* Ajout de la propriété position */
+}
+
+.input-group input {
+    line-height: 1.65;
+    color: white;
+    background: transparent;
+    border: transparent;
+    text-align: center;
+    font-size: 25px;
+}
+
+.input-group {
+    display: flex;
+    justify-content: center;
+    padding-top: 5%;
+}
+
+.input-group button {
+    color: white;
+}
+
+#prix- {
+    font-size: 20px;
+    text-align: center;
+}
+
+.enregistrer {
+    padding: 2%;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-left: 30%;
+    margin-top: 10%;
+    color: #fff;
+    background-color: green;
+}
+
+
+/* Styles spécifiques aux tablettes */
+
+@media (max-width: 768px) {
+    .produit {
+        width: calc(50% - 4%);
+        margin: 2%;
+        padding: 2%;
+        height: 120px;
+        font-size: 16px;
+    }
+    .page_plongee,
+    .page_gonflage {
+        padding-top: 20%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #plongee {
+        padding-top: 35%;
+    }
+}
+
+
+/* Styles spécifiques aux téléphones */
+
+@media (max-width: 480px) {
+    #plongee {
+        padding-top: 5%;
+        font-size: 20px;
+    }
+    .page_plongee,
+    .page_gonflage {
+        padding-top: 15%;
+    }
+    .produit {
+        width: calc(50% - 4%);
+        margin: 2%;
+        padding: 2%;
+        height: 120px;
+        font-size: 14px;
+    }
+}
+
+
+/* Styles pour la liste des produits sélectionnés */
+
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 200px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 5;
+}
+
+.side-panel h3 {
+    margin-top: 0;
+}
+
+.side-panel .product {
+    margin-bottom: 10px;
+}
+
+.prix-produit {
+    margin-top: 5px;
+    margin-left: 75px;
+    font-size: 14px;
+}
+
+#total {
+    padding-top: 15%;
+    text-align: center;
+    font-size: 18px;
+    font-style: bold;
+}
+
+.page_plongee {
+    margin-right: 220px;
+    /* Ajout de la marge pour laisser de l'espace à la liste des produits sélectionnés */
+}
