@@ -21,7 +21,7 @@
         <div class="container">
                        
              <div class="panel panel-primary margetop60">
-                <div class="panel-heading">Les infos du nouveau client :</div>
+                <div class="panel-heading">Les informations du nouveau client :</div>
                 <div class="panel-body">
                     <form method="post" action="insertclient.php" class="form"  enctype="multipart/form-data">
 						
@@ -37,18 +37,9 @@
                             <label for="civilite">Civilité :</label>
                             <div class="radio">
                                 <label><input type="radio" name="civilite" value="F" checked/> F </label><br>
-                                <label><input type="radio" name="civilite" value="M"/> M </label>
+                                <label><input type="radio" name="civilite" value="M"/> M </label></br>
+                                <label><input type="radio" name="civilite" value="A"/> Autre </label>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="idproduit">Filière:</label>
-				            <select name="idproduit" class="form-control" id="idproduit">
-                              <?php while($produit=$resultatF->fetch()) { ?>
-                                <option value="<?php echo $produit['idproduit'] ?>"> 
-                                    <?php echo $produit['nomproduit'] ?>
-                                </option>
-                              <?php }?>
-				            </select>
                         </div>
                         <div class="form-group">
                              <label for="photo">Photo :</label>

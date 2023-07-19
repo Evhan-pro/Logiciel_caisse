@@ -1,31 +1,23 @@
 <?php
-    session_start();
-        if(isset($_SESSION['user'])){
-            
+     session_start();
+    if(isset($_SESSION['user'])){
+        
             require_once('connexiondb.php');
-            $idf=isset($_GET['idF'])?$_GET['idF']:0;
+            
+            $idUser=isset($_GET['idUser'])?$_GET['idUser']:0;
 
-            $requeteStag="select count(*) countStag from client where idproduit=$idf";
-            $resultatStag=$pdo->query($requeteStag);
-            $tabCountStag=$resultatStag->fetch();
-            $nbrStag=$tabCountStag['countStag'];
+            $requete="delete from produit where idproduit=?";
             
-            if($nbrStag==0){
-                $requete="delete from produit where idproduit=?";
-                $params=array($idf);
-                $resultat=$pdo->prepare($requete);
-                $resultat->execute($params);
-                header('location:produit.php');
-            }else{
-                $msg="Suppression impossible: Vous devez supprimer tous les client inscris dans cette filière";
-                header("location:alerte.php?message=$msg");
-            }
+            $params=array($idUser);
             
-         }else {
+            $resultat=$pdo->prepare($requete);
+            
+            $resultat->execute($params);
+            
+            header('location:produit.php');   
+            
+     }else {
                 header('location:login.php');
         }
-    
-    
-    
     
 ?>

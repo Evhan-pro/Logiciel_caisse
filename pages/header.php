@@ -13,8 +13,10 @@
     <?php endforeach; endif ?>
 
     <?php
+
     require_once('identifier.php');
     require_once('connexiondb.php');
+    require_once('session.php');
     $idS=isset($_GET['idS'])?$_GET['idS']:0;
     $requeteS="select * from client where idclient=$idS";
     $resultatS=$pdo->query($requeteS);
@@ -26,8 +28,20 @@
     $nomPhoto=$client['photo'];
 
     $requeteF="select * from produit";
-    $resultatF=$pdo->query($requeteF); 
+    $resultatF=$pdo->query($requeteF);
+
+    session_start(); 
+            // Récupérer le nouveau nom et prénom du client sélectionné
+            $nouveauNomClient = $client['nom'];
+            $nouveauPrenomClient = $client['prenom'];
+            $nouvelID = $client['idclient'];
+        
+            // Mettre à jour les variables de session
+            $_SESSION['nomClient'] = $nouveauNomClient;
+            $_SESSION['prenomClient'] = $nouveauPrenomClient;
+            $_SESSION['IDclient'] = $nouvelID;
 ?>
+    
 
     <script>
             jQuery(function(){
@@ -48,19 +62,19 @@
 
     <!--Début Header-->
     <header class="header" data-header>
-        <a href="client.php"><span class="glyphicon glyphicon-arrow-left"></span><?php echo $nom ?>
-        <?php echo $prenom ?></a>
+        <a href="client.php"><h4><?php echo $nouveauNomClient . ' ' . $nouveauPrenomClient; ?></h4>
+</a>
         <div class="container">
         <div class="home">
         <img src="images/logo.png" width="15%">
         <ul class="menu cf">
             <li class="plongee"><a href="plongee.php">Plongée</a></li>
             <li class="gonflage"><a href="gonflage.php">Gonflage</a></li>
-            <li class="carte"><a href="">Carte</a></li>
-            <li class="restaurant"><a href="">Restaurant</a></li>
-            <li class="formation"><a href="">Formation</a></li>
-            <li class="hebergement"><a href="">Hébergement</a></li>
-            <li class="boutique"><a href="">Boutique</a></li>
+            <li class="carte"><a href="carte.php">Carte</a></li>
+            <li class="restaurant"><a href="restaurant.php">Restaurant</a></li>
+            <li class="formation"><a href="formation.php">Formation</a></li>
+            <li class="hebergement"><a href="hebergement.php">Hébergement</a></li>
+            <li class="boutique"><a href="boutique.php">Boutique</a></li>
         </ul>
     </div>
         <div class="recouvrir" data-nav-toggler data-recouvrir></div>
@@ -74,9 +88,5 @@
 <div class="btn">
    <img src="images/fleche_haut.png" class="icone" >
 </div>
-
-<!-- Fin flèche retour vers le haut -->
-    <script src="js/fleche.js"></script>
-    <script src="js/script.js"></script>
 
 </body>

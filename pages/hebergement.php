@@ -8,30 +8,15 @@
     <?php
         require_once('identifier.php');
         require_once('connexiondb.php');
-        include('header.php');
-
-        session_start();
-
-
-        // Récupérer le nouveau nom et prénom du client sélectionné
-        $nouveauNomClient = $client['nom'];
-        $nouveauPrenomClient = $client['prenom'];
-        $nouvelID = $client['idclient'];
-    
-        // Mettre à jour les variables de session
-        $_SESSION['nomClient'] = $nouveauNomClient;
-        $_SESSION['prenomClient'] = $nouveauPrenomClient;
-        $_SESSION['IDclient'] = $nouvelID;
-        $_SESSION['produitsSelectionnes'] = $produitsSelectionnes;
        
         $nomp = isset($_GET['nomP']) ? $_GET['nomP'] : "";
-        $famille = isset($_GET['famille']) ? $_GET['famille'] : "gonflage";
+        $famille = isset($_GET['famille']) ? $_GET['famille'] : "hebergement";
         
         $size = isset($_GET['size']) ? $_GET['size'] : 6;
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $offset = ($page - 1) * $size;
         
-        if ($famille == "all") {
+        if ($famille == "hebergement") {
             $requete = "SELECT * FROM produit
                         WHERE nomproduit LIKE '%$nomp%'
                         LIMIT $size
@@ -62,8 +47,13 @@
         else
             $nbrPage = floor($nbrproduit / $size) + 1;
     ?>
+    <header>
+    <?php
+    include('header.php');
+    ?>
+    </header>
     <div class="side-panel">
-        <h4><?php echo $nomClient . ' ' . $prenomClient; ?></h4>
+        <h4><?php echo $nom . ' ' . $prenom; ?></h4>
         <h5>Produits sélectionnés</h5>
         <div id="produits-selectionnes"></div>
         <div id="total"></div>
@@ -71,7 +61,7 @@
     </div>
     
     <div class="page_famille">
-        <h2 id="famille">Gonflage</h2>
+        <h2 id="famille">Plongée</h2>
         <div class="ligne">
             <?php while ($produit = $resultatF->fetch()) { ?>
                 <div class="produit">
@@ -91,7 +81,8 @@
     </div>
     
     <script>
-        var produitsSelectionnes = <?php echo json_encode($produitsSelectionnes); ?>;
+        var produitsSelectionnes = [];
+        
 
         function updateQuantite(productId) {
             var inputElement = document.getElementById("num-personnes-" + productId);
@@ -102,6 +93,7 @@
             var quantity = inputElement.value;
 
             if (quantity > 0) {
+
                 var produitExistant = produitsSelectionnes.find(function(produit) {
                     return produit.id === productId;
                 });
@@ -119,7 +111,7 @@
                 });
             }
 
-            updateListeProduitsSelectionnes();
+            updateListeProduitsSelectionnes(); // Appel de la fonction pour afficher les produits sélectionnés
         }
 
         function updateListeProduitsSelectionnes() {
@@ -133,24 +125,10 @@
                     var produitDiv = document.createElement("div");
                     var prixUnitaire = parseFloat(produit.prix) * parseFloat(produit.quantite);
                     produitDiv.textContent = produit.nom + " x " + produit.quantite;
-
-                    if (produit.nom === "Présent ce week end") {
-                        var produitDiv = document.createElement("div");
-                        produitDiv.classList.add("produit-weekend");
-                        produitDiv.textContent = produit.nom;
-                    } else {
-                        var produitDiv = document.createElement("div");
-                        produitDiv.textContent = produit.nom + " x " + produit.quantite;
-                    }
                     
                     var prixElement = document.createElement("span");
+                    prixElement.classList.add("prix-produit");
                     prixElement.textContent = "Prix " + prixUnitaire.toFixed(2) + "€";
-
-                    if (prixUnitaire > 0) {
-                        prixElement.classList.add("prix-selectionne");
-                    } else {
-                        prixElement.classList.add("prix-produit");
-                    }
 
                     produitDiv.appendChild(prixElement);
                     produitsSelectionnesContainer.appendChild(produitDiv);
@@ -179,18 +157,23 @@
         }
 
         function sendSelectedProducts() {
+            // Convertir la liste des produits sélectionnés en une chaîne JSON
             var selectedProductsJson = JSON.stringify(produitsSelectionnes);
 
+            // Créer une requête AJAX
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "save_products.php?idClient=", true);
             xhr.setRequestHeader('Content-Type', 'application/json');
 
+            // Gérer la réponse de la requête
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    // Afficher une notification ou effectuer toute autre action après l'enregistrement réussi
                     alert(xhr.responseText);
                 }
             };
 
+            // Envoyer la requête avec les données des produits sélectionnés
             xhr.send(selectedProductsJson);
         }
     </script>

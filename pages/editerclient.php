@@ -8,9 +8,7 @@
     $nom=$client['nom'];
     $prenom=$client['prenom'];
     $civilite=strtoupper($client['civilite']);
-    $idproduit=$client['idproduit'];
     $nomPhoto=$client['photo'];
-
     $requeteF="select * from produit";
     $resultatF=$pdo->query($requeteF);
 
@@ -30,7 +28,7 @@
         <div class="container">
                        
              <div class="panel panel-primary margetop60">
-                <div class="panel-heading">Edition du client :</div>
+                <div class="panel-heading">Edition du client :<?php echo ' '.$nom . ' ' . $prenom; ?></div>
                 <div class="panel-body">
                     <form method="post" action="updateclient.php" class="form"  enctype="multipart/form-data">
 						<div class="form-group">
@@ -54,17 +52,6 @@
                                 <label><input type="radio" name="civilite" value="M"
                                     <?php if($civilite==="M")echo "checked" ?>/> M </label>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="idproduit">Filière:</label>
-				            <select name="idproduit" class="form-control" id="idproduit">
-                              <?php while($produit=$resultatF->fetch()) { ?>
-                                <option value="<?php echo $produit['idproduit'] ?>"
-                                         <?php if($idproduit===$produit['idproduit']) echo "selected" ?>> 
-                                    <?php echo $produit['nomproduit'] ?>
-                                </option>
-                              <?php }?>
-				            </select>
                         </div>
                         <div class="form-group">
                              <label for="photo">Photo :</label>

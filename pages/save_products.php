@@ -1,28 +1,34 @@
 <?php
+session_start(); // Démarrer la session
+
 // Connexion à la base de données (remplacez les valeurs par celles de votre configuration)
 $serveur = "localhost";
 $utilisateur = "root";
 $motDePasse = "root";
 $nomBaseDeDonnees = "bdd";
+$port = 3306;
+
 
 try {
-    $connexion = new PDO("mysql:host=$serveur;dbname=$nomBaseDeDonnees", $utilisateur, $motDePasse);
+    $connexion = new PDO("mysql:host=$serveur;dbname=$nomBaseDeDonnees", $utilisateur, $motDePasse, $port);
     $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Récupérer l'ID du client à partir de la variable de session
+    $idClient = $_SESSION['IDclient'];
+    $idS=isset($_GET['idS'])?$_GET['idS']:0;
 
     // Récupérer les données des produits sélectionnés envoyées en tant que JSON
     $produitsSelectionnesJson = file_get_contents('php://input');
     $produitsSelectionnes = json_decode($produitsSelectionnesJson, true);
-    $idClient = $selectedProductsData['idClient']; 
 
     // Parcourir la liste des produits sélectionnés et les enregistrer dans la base de données
     foreach ($produitsSelectionnes as $produit) {
         $idProduit = $produit['id'];
-        $nomProduit = $produit['nom'];
+        $nomProduit = $produit['nomproduit'];
         $quantite = $produit['quantite'];
         $prix = $produit['prix'];
 
-
-        // Exécuter la requête d'insertion dans la base de données
+        // Exécuter la requête d'insertion dans la base de données avec l'ID du client
         $requete = $connexion->prepare("INSERT INTO produits_selectionnes (idproduit, nomproduit, quantite, prix, idclient) VALUES (?, ?, ?, ?, ?)");
         $requete->execute([$idProduit, $nomProduit, $quantite, $prix, $idClient]);
     }

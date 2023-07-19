@@ -12,6 +12,11 @@
 
         session_start();
 
+        if (isset($_SESSION['produitsSelectionnes']) && !empty($_SESSION['produitsSelectionnes'])) {
+            $produitsSelectionnes = $_SESSION['produitsSelectionnes'];
+        } else {
+            $produitsSelectionnes = array();
+        }
 
         // Récupérer le nouveau nom et prénom du client sélectionné
         $nouveauNomClient = $client['nom'];
@@ -25,7 +30,7 @@
         $_SESSION['produitsSelectionnes'] = $produitsSelectionnes;
        
         $nomp = isset($_GET['nomP']) ? $_GET['nomP'] : "";
-        $famille = isset($_GET['famille']) ? $_GET['famille'] : "gonflage";
+        $famille = isset($_GET['famille']) ? $_GET['famille'] : "restaurant";
         
         $size = isset($_GET['size']) ? $_GET['size'] : 6;
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -71,7 +76,7 @@
     </div>
     
     <div class="page_famille">
-        <h2 id="famille">Gonflage</h2>
+        <h2 id="famille">Carte</h2>
         <div class="ligne">
             <?php while ($produit = $resultatF->fetch()) { ?>
                 <div class="produit">

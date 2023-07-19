@@ -1,19 +1,30 @@
-<!DOCTYPE html>
 <html>
 <head>
     <title>Liste des produits</title>
-    <link rel="stylesheet" href="../css/plongee.css">
+    <link rel="stylesheet" href="../css/famille.css">
 </head>
 <body>
     <?php
-    include('header.php');
-    ?>
-    <?php
         require_once('identifier.php');
         require_once('connexiondb.php');
+        include('header.php');
+
+        session_start();
+                // Récupérer le nouveau nom et prénom du client sélectionné
+                $nouveauNomClient = $client['nom'];
+                $nouveauPrenomClient = $client['prenom'];
+                $nouvelID = $client['idclient'];
+                
+            
+                // Mettre à jour les variables de session
+                $_SESSION['nomClient'] = $nouveauNomClient;
+                $_SESSION['prenomClient'] = $nouveauPrenomClient;
+                $_SESSION['Idclient'] = $nouvelID;
+                $_SESSION['produitsSelectionnes'] = $produitsSelectionnes;
+    
        
         $nomp = isset($_GET['nomP']) ? $_GET['nomP'] : "";
-        $famille = isset($_GET['famille']) ? $_GET['famille'] : "all";
+        $famille = isset($_GET['famille']) ? $_GET['famille'] : "plongee";
         
         $size = isset($_GET['size']) ? $_GET['size'] : 6;
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -24,157 +35,227 @@
                         WHERE nomproduit LIKE '%$nomp%'
                         LIMIT $size
                         OFFSET $offset";
-            
             $requeteCount = "SELECT COUNT(*) AS countF FROM produit
                              WHERE nomproduit LIKE '%$nomp%'";
         } else {
-            $requete = "SELECT * FROM produit
-                        WHERE nomproduit LIKE '%$nomp%'
-                        AND famille = '$famille'
-                        LIMIT $size
-                        OFFSET $offset";
-            
+            $condition = $nomp != '' ? "WHERE nomproduit LIKE '%$nomp%' AND" : "WHERE ";
+            $requete = "SELECT * FROM produit ". $condition." famille = '$famille' LIMIT $size OFFSET $offset";
             $requeteCount = "SELECT COUNT(*) AS countF FROM produit
                              WHERE nomproduit LIKE '%$nomp%'
                              AND famille = '$famille'";
         }
 
-    
         $resultatF = $pdo->query($requete);
+        $produits = $resultatF->fetchAll();
+        
     
         $resultatCount = $pdo->query($requeteCount);
         $tabCount = $resultatCount->fetch();
         $nbrproduit = $tabCount['countF'];
         $reste = $nbrproduit % $size;
-        if ($reste === 0)
-            $nbrPage = $nbrproduit / $size;
-        else
+        if ($reste === 0){
+            $nbrPage = $nbrproduit / $size;}
+        else{
             $nbrPage = floor($nbrproduit / $size) + 1;
-    ?>
-    
-    <div class="side-panel">
-        <h4><?php echo $nom . ' ' . $prenom; ?></h4>
-        <h5>Produits sélectionnés</h5>
-        <div id="produits-selectionnes"></div>
-        <div id="total"></div>
-        <button class="enregistrer" type="submit" onclick="sendSelectedProducts()">Valider</button>
-    </div>
-    
-    <div class="page_plongee">
-        <h2 id="plongee">Plongée</h2>
-        <div class="ligne">
-            <?php while ($produit = $resultatF->fetch()) { ?>
-                <div class="produit">
-    <span id="nomproduit-<?php echo $produit['idproduit']; ?>"><?php echo $produit['nomproduit']; ?></span><br>
-    <div class="prix-produit">
-        <span id="prix-<?php echo $produit['idproduit']; ?>"><?php echo $produit['prix']; ?>€</span>
-    </div>
-    <div class="input-group">
-        <button onclick="decrement(<?php echo $produit['idproduit']; ?>)">-</button>
-        <input type="number" id="num-personnes-<?php echo $produit['idproduit']; ?>" min="0" max="100" value="0" data-productid="<?php echo $produit['idproduit']; ?>" onchange="updateQuantite(<?php echo $produit['idproduit']; ?>)">
-        <button onclick="increment(<?php echo $produit['idproduit']; ?>)">+</button>
-    </div>
-    <div id="quantite-<?php echo $produit['idproduit']; ?>"></div>
-</div>
-            <?php } ?>
-        </div>
-    </div>
-    
-    <script>
-        var produitsSelectionnes = [];
-
-        function updateQuantite(productId) {
-            var inputElement = document.getElementById("num-personnes-" + productId);
-            var quantiteElement = document.getElementById("quantite-" + productId);
-            var produitElement = document.getElementById("nomproduit-" + productId);
-            var prixElement = document.getElementById("prix-" + productId);
-
-            var quantity = inputElement.value;
-
-            if (quantity > 0) {
-
-                var produitExistant = produitsSelectionnes.find(function(produit) {
-                    return produit.id === productId;
-                });
-
-                if (produitExistant) {
-                    produitExistant.quantite = quantity;
-                } else {
-                    produitsSelectionnes.push({ id: productId, nom: produitElement.textContent, quantite: quantity, prix: parseFloat(prixElement.textContent) });
-                }
-            } else {
-                quantiteElement.textContent = "";
-
-                produitsSelectionnes = produitsSelectionnes.filter(function(produit) {
-                    return produit.id !== productId;
-                });
-            }
-
-            updateListeProduitsSelectionnes(); // Appel de la fonction pour afficher les produits sélectionnés
         }
 
-        function updateListeProduitsSelectionnes() {
-  var produitsSelectionnesContainer = document.getElementById("produits-selectionnes");
-  produitsSelectionnesContainer.innerHTML = "";
+            // Requête pour récupérer les produits sélectionnés du client connecté
+            $requeteProduitsSelectionnes = "SELECT p.idproduit, p.nomproduit, ps.quantite, ps.prix
+            FROM produits_selectionnes ps
+            INNER JOIN produit p ON ps.idproduit = p.idproduit
+            WHERE ps.idclient = :idClient";
+            
 
-  var total = 0;
+$stmt = $pdo->prepare($requeteProduitsSelectionnes);
+$stmt->bindParam(':idClient', $_SESSION['idClient']);
+$stmt->execute();
 
-  produitsSelectionnes.forEach(function(produit) {
-    if (produit.quantite > 0) {
-      var produitDiv = document.createElement("div");
-      var prixUnitaire = parseFloat(produit.prix) * parseFloat(produit.quantite);
-      produitDiv.textContent = produit.nom + " x " + produit.quantite;
+$produitsSelectionnes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ?>
+<script>
+    data = <?php echo json_encode($produitsSelectionnes); ?>;
+    produitsSelectionnes = [];
+
+    data.forEach(function(produit) {
+        produitsSelectionnes.push({
+            id: produit.idproduit,
+            nom: produit.nomproduit,
+            quantite: produit.quantite,
+            prix: parseFloat(produit.prix)
+        });
+    });
+</script>
+<div class="side-panel">
+    <h4><?php echo $nouveauNomClient . ' ' . $nouveauPrenomClient; ?></h4>
+    <div id="produits-selectionnes">
+        <?php foreach ($produitsSelectionnes as $produit): ?>
+            <div><?= $produit['nomproduit']; ?> x <?= $produit['quantite']; ?></div>
+            <div><?= $produit['prix'] ?></div>
+        <?php endforeach; ?>
+    </div>
+    <div id="total"></div>
+    <button class="enregistrer" type="submit" onclick="sendSelectedProducts()">Valider</button>
+</div>
+<div class="page_famille">
+    <h2 id="famille">Plongée</h2>
+    <div class="ligne">
+        <?php foreach ($produits as $produit): 
+            if(in_array($produit['idproduit'], array_column($produitsSelectionnes, 'idproduit'))){
+                $produitSelectKey = array_search($produit['idproduit'], array_column($produitsSelectionnes, 'idproduit'));
+                $produitSelect = $produitsSelectionnes[$produitSelectKey];
+            }else{
+                $produitSelect = null;
+            }
+            ?>
+            
+            <div class="produit">
+                <span id="nomproduit-<?php echo $produit['idproduit']; ?>"><?php echo $produit['nomproduit']; ?></span><br>
+                <div class="prix-produit">
+                    <span id="prix-<?php echo $produit['idproduit']; ?>"><?php echo $produit['prix']; ?>€</span>
+                </div>
+                <div class="input-group">
+                    <button onclick="decrement(<?php echo $produit['idproduit']; ?>)">-</button>
+                    <input type="number" id="num-personnes-<?php echo $produit['idproduit']; ?>" min="0" max="100" value="<?= $produitSelect ? $produitSelect['quantite'] : '0'; ?>" data-productid="<?php echo $produit['idproduit']; ?>" onchange="updateQuantite(<?php echo $produit['idproduit']; ?>)">
+                    <button onclick="increment(<?php echo $produit['idproduit']; ?>)">+</button>
+                </div>
+                <div id="quantite-<?php echo $produit['idproduit']; ?>"></div>
+            </div>
+        <?php endforeach; ?>
+        <div class="produit">
+                <span id="present">Présent ce week end</span><br>
+                <div class="input-group">
+                    <button onclick="decrement(<?php echo $produit['idproduit']; ?>)">-</button>
+                    <input type="number" id="num-personnes-<?php echo $produit['idproduit']; ?>" min="0" max="100" value="<?php echo $produit['quantite']; ?>" data-productid="<?php echo $produit['idproduit']; ?>" onchange="updateQuantite(<?php echo $produit['idproduit']; ?>)">
+                    <button onclick="increment(<?php echo $produit['idproduit']; ?>)">+</button>
+                </div>
+                <div id="quantite-<?php echo $produit['idproduit']; ?>"></div>
+            </div>
+    </div>
+</div>
+<script>
+// Mettre à jour l'affichage des produits sélectionnés
+// updateListeProduitsSelectionnes();
+function updateQuantite(productId) {
+    var inputElement = document.getElementById("num-personnes-" + productId);
+    var quantiteElement = document.getElementById("quantite-" + productId);
+    var produitElement = document.getElementById("nomproduit-" + productId);
+    var prixElement = document.getElementById("prix-" + productId);
+
+    var quantity = parseInt(inputElement.value);
+    var produitExistant = produitsSelectionnes.find(produit => produit.id == productId);
+    if (produitExistant) {
+        
+        
+        produitExistant.quantite = parseInt(quantity);
+    } else {
+        var nomProduit = produitElement.textContent;
+
+        produitsSelectionnes.push({
+            id: productId,
+            nom: nomProduit,
+            quantite: quantity,
+            prix: parseFloat(prixElement.textContent)
+        });
       
-      var prixElement = document.createElement("span");
-      prixElement.classList.add("prix-produit");
-      prixElement.textContent = "Prix " + prixUnitaire.toFixed(2) + "€";
-
-      produitDiv.appendChild(prixElement);
-      produitsSelectionnesContainer.appendChild(produitDiv);
-
-      var sousTotal = parseFloat(prixUnitaire);
-      total += sousTotal;
+        
     }
-  });
-
-  var totalElement = document.getElementById("total");
-  totalElement.textContent = "Total : " + total.toFixed(2) + "€";
+    console.log('produitExistant');
+    console.log(produitExistant);
+    console.log('produitsSelectionnes');
+    console.log(produitsSelectionnes);
+ 
+    // Mettez à jour l'affichage des produits sélectionnés
+    updateListeProduitsSelectionnes();
+}
+   
+function isProductSelected(productId) {
+    for (var i = 0; i < produitsSelectionnes.length; i++) {
+        if (produitsSelectionnes[i].id === productId) {
+            return true;
+        }
+    }
+    return false;
 }
 
+function updateListeProduitsSelectionnes() {
+    var produitsSelectionnesContainer = document.getElementById("produits-selectionnes");
+    produitsSelectionnesContainer.innerHTML = "";
 
-        function decrement(productId) {
-            var inputElement = document.getElementById("num-personnes-" + productId);
-            if (inputElement.value > 0) {
-                inputElement.value--;
-                updateQuantite(productId);
+    var total = 0;
+
+    for (var i = 0; i < produitsSelectionnes.length; i++) {
+        var produit = produitsSelectionnes[i];
+
+        if (produit.quantite > 0) {
+            var produitDiv = document.createElement("div");
+            var prixUnitaire = parseFloat(produit.prix) * parseFloat(produit.quantite);
+
+            if (produit.nom === "Présent ce week end") {
+                produitDiv.classList.add("produit-weekend");
+                produitDiv.textContent = produit.nom;
+            } else {
+                produitDiv.textContent = produit.nom + " x " + produit.quantite;
+
+                if (prixUnitaire > 0) {
+                    var prixElement = document.createElement("span");
+                    prixElement.textContent = "Prix " + prixUnitaire.toFixed(2) + "€";
+                    prixElement.classList.add("prix-selectionne");
+                    produitDiv.appendChild(prixElement);
+                }
+            }
+
+            produitsSelectionnesContainer.appendChild(produitDiv);
+
+            if (produit.nom !== "Présent ce week end") {
+                var sousTotal = parseFloat(prixUnitaire);
+                total += sousTotal;
             }
         }
-
-        function increment(productId) {
-            var inputElement = document.getElementById("num-personnes-" + productId);
-            inputElement.value++;
-            updateQuantite(productId);
-        }
-
-        function sendSelectedProducts() {
-  // Convertir la liste des produits sélectionnés en une chaîne JSON
-  var selectedProductsJson = JSON.stringify(produitsSelectionnes);
-
-  // Créer une requête AJAX
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'save_products.php', true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-
-  // Gérer la réponse de la requête
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      // Afficher une notification ou effectuer d'autres actions après l'enregistrement des données
-      alert('Les produits sélectionnés ont été enregistrés avec succès !');
     }
-  };
 
-  // Envoyer la requête avec les données des produits sélectionnés
-  xhr.send(selectedProductsJson);
+    var totalElement = document.getElementById("total");
+    totalElement.textContent = "Total : " + total.toFixed(2) + "€";
+}
+
+function decrement(productId) {
+    var inputElement = document.getElementById("num-personnes-" + productId);
+    if (inputElement.value > 0) {
+        inputElement.value = Math.max(parseInt(inputElement.value) - 1, 0);
+        inputElement.dispatchEvent(new Event('change'));
+        // updateQuantite(productId);
+    }
+}
+
+function increment(productId) {
+    var inputElement = document.getElementById("num-personnes-" + productId);
+    inputElement.value = parseInt(inputElement.value) + 1;
+    inputElement.dispatchEvent(new Event('change'));
+    // updateQuantite(productId, inputElement.value);
+}
+
+function sendSelectedProducts() {
+    // Créer une requête AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "exportData.php", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    // Gérer la réponse de la requête
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            // Afficher une notification ou effectuer toute autre action après l'enregistrement réussi
+            var response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                alert("Les produits sélectionnés ont été enregistrés avec succès !");
+            } else {
+                alert("Une erreur est survenue lors de l'enregistrement des produits.");
+            }
+        }
+        updateListeProduitsSelectionnes();
+        console.log(JSON.stringify(produitsSelectionnes));
+    };
+
+    // Envoyer les produits sélectionnés sous forme de JSON
+    xhr.send(JSON.stringify(produitsSelectionnes));
 }
 
     </script>

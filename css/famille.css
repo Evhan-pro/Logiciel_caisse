@@ -26,17 +26,17 @@ body {
 
 /* Styles spécifiques à la page */
 
-#plongee {
+#famille {
     padding-top: 10%;
     font-size: 24px;
 }
 
-.page_plongee,
+.page_famille,
 .page_gonflage {
     padding-top: 10%;
 }
 
-.page_plongee .ligne,
+.page_famille .ligne,
 .page_gonflage .ligne {
     display: flex;
     align-items: center;
@@ -97,19 +97,29 @@ body {
 @media (max-width: 768px) {
     .produit {
         width: calc(50% - 4%);
-        margin: 2%;
-        padding: 2%;
-        height: 120px;
+        margin: 1%;
+        padding: 5%;
+        height: 180px;
         font-size: 16px;
     }
-    .page_plongee,
+    .page_famille,
     .page_gonflage {
         padding-top: 20%;
+    }
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    .side-panel {
+        order: 2;
+    }
+    .page_famille {
+        order: 1;
     }
 }
 
 @media screen and (max-width: 768px) {
-    #plongee {
+    #famille {
         padding-top: 35%;
     }
 }
@@ -118,11 +128,11 @@ body {
 /* Styles spécifiques aux téléphones */
 
 @media (max-width: 480px) {
-    #plongee {
+    #famille {
         padding-top: 5%;
         font-size: 20px;
     }
-    .page_plongee,
+    .page_famille,
     .page_gonflage {
         padding-top: 15%;
     }
@@ -160,8 +170,7 @@ body {
 
 .prix-produit {
     margin-top: 5px;
-    margin-left: 75px;
-    font-size: 14px;
+    font-size: 20px;
 }
 
 #total {
@@ -171,7 +180,21 @@ body {
     font-style: bold;
 }
 
-.page_plongee {
+.page_famille {
     margin-right: 220px;
     /* Ajout de la marge pour laisser de l'espace à la liste des produits sélectionnés */
+}
+
+.prix-selectionne {
+    margin-top: 5px;
+    margin-left: 75px;
+    font-size: 14px;
+}
+
+.produit-weekend {
+    background-color: rgba(57, 191, 57, 0.642);
+    font-size: 15px;
+    font-weight: bold;
+    padding: 1%;
+    padding: 3%;
 }

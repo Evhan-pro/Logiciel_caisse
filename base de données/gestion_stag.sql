@@ -27,6 +27,17 @@ create table utilisateur(
     pwd varchar(255)
 );
 
+CREATE TABLE produits_selectionnes (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  idproduit INT,
+  nomproduit VARCHAR(255),
+  quantite INT,
+  prix DECIMAL(10, 2),
+  idclient INT,
+  FOREIGN KEY (idproduit) REFERENCES produit(idproduit),
+  FOREIGN KEY (idclient) REFERENCES client(idclient)
+);
+
 Alter table client add constraint 
     foreign key(idproduit) references produit(idproduit);
 

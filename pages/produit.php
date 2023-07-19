@@ -140,7 +140,7 @@
                                                 <span class="glyphicon glyphicon-edit"></span>
                                             </a>
                                             &nbsp;
-                                            <a onclick="return confirm('Etes vous sur de vouloir supprimer la filière')"
+                                            <a onclick="return confirm('Etes vous sur de vouloir supprimer le produit ?')"
                                                 href="supprimerproduit.php?idF=<?php echo $produit['idproduit'] ?>">
                                                     <span class="glyphicon glyphicon-trash"></span>
                                             </a>
