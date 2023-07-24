@@ -58,7 +58,7 @@
             });
 </script>
 </head>
-<body>
+
 
     <!--Début Header-->
     <header class="header" data-header>
@@ -84,7 +84,7 @@
 <!--Fin Header-->
 
 <!-- Début flèche retour vers le haut -->
-
+<body>
 <div class="btn">
    <img src="images/fleche_haut.png" class="icone" >
 </div>

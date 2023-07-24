@@ -1,5 +1,6 @@
 <?php
-session_start(); // Démarrer la session
+error_reporting()
+
 
 // Connexion à la base de données (remplacez les valeurs par celles de votre configuration)
 $serveur = "localhost";
@@ -9,12 +10,12 @@ $nomBaseDeDonnees = "bdd";
 $port = 3306;
 
 
-try {
+try {²
     $connexion = new PDO("mysql:host=$serveur;dbname=$nomBaseDeDonnees", $utilisateur, $motDePasse, $port);
     $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Récupérer l'ID du client à partir de la variable de session
-    $idClient = $_SESSION['IDclient'];
+    $idClient = $_SESSION['Idclient'];
     $idS=isset($_GET['idS'])?$_GET['idS']:0;
 
     // Récupérer les données des produits sélectionnés envoyées en tant que JSON
@@ -24,7 +25,7 @@ try {
     // Parcourir la liste des produits sélectionnés et les enregistrer dans la base de données
     foreach ($produitsSelectionnes as $produit) {
         $idProduit = $produit['id'];
-        $nomProduit = $produit['nomproduit'];
+        $nomProduit = $produit['nomproduit'];  
         $quantite = $produit['quantite'];
         $prix = $produit['prix'];
 

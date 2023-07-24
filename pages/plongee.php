@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="../css/famille.css">
 </head>
 <body>
+<h4><?php echo $nouveauNomClient . ' ' . $nouveauPrenomClient; ?></h4>
     <?php
         require_once('identifier.php');
         require_once('connexiondb.php');
@@ -234,29 +235,42 @@ function increment(productId) {
 }
 
 function sendSelectedProducts() {
+    var produitsSelectionnes = <?php echo json_encode($produitsSelectionnes); ?>;
+    
+    // Vérifier si la liste des produits sélectionnés est vide
+    if (produitsSelectionnes.length === 0) {
+        alert("La liste des produits sélectionnés est vide !");
+        return;
+    }
+
     // Créer une requête AJAX
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "exportData.php", true);
+    xhr.open("POST", "save_products.php", true);
     xhr.setRequestHeader('Content-Type', 'application/json');
 
     // Gérer la réponse de la requête
     xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            // Afficher une notification ou effectuer toute autre action après l'enregistrement réussi
-            var response = JSON.parse(xhr.responseText);
-            if (response.success) {
-                alert("Les produits sélectionnés ont été enregistrés avec succès !");
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Réponse reçue avec succès
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    alert("Les produits sélectionnés ont été enregistrés avec succès !");
+                } else {
+                    alert("Une erreur est survenue lors de l'enregistrement des produits.");
+                }
             } else {
-                alert("Une erreur est survenue lors de l'enregistrement des produits.");
+                // Erreur lors de la requête
+                alert("Une erreur est survenue lors de l'envoi de la requête.");
             }
         }
         updateListeProduitsSelectionnes();
-        console.log(JSON.stringify(produitsSelectionnes));
     };
 
-    // Envoyer les produits sélectionnés sous forme de JSON
+    // Envoyer la requête avec les données des produits sélectionnés
     xhr.send(JSON.stringify(produitsSelectionnes));
 }
+
 
     </script>
 </body>
