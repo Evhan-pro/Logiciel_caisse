@@ -129,15 +129,6 @@ $produitsSelectionnes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div id="quantite-<?php echo $produit['idproduit']; ?>"></div>
             </div>
         <?php endforeach; ?>
-        <div class="produit">
-                <span id="present">Présent ce week end</span><br>
-                <div class="input-group">
-                    <button onclick="decrement(<?php echo $produit['idproduit']; ?>)">-</button>
-                    <input type="number" id="num-personnes-<?php echo $produit['idproduit']; ?>" min="0" max="100" value="<?php echo $produit['quantite']; ?>" data-productid="<?php echo $produit['idproduit']; ?>" onchange="updateQuantite(<?php echo $produit['idproduit']; ?>)">
-                    <button onclick="increment(<?php echo $produit['idproduit']; ?>)">+</button>
-                </div>
-                <div id="quantite-<?php echo $produit['idproduit']; ?>"></div>
-            </div>
     </div>
 </div>
 <script>
