@@ -12,8 +12,7 @@
         <link rel="stylesheet" href=<?php echo($stylesheet) ?>>
     <?php endforeach; endif ?>
 
-    <?php
-
+    <?php 
     require_once('identifier.php');
     require_once('connexiondb.php');
     require_once('session.php');
@@ -26,11 +25,10 @@
     $civilite=strtoupper($client['civilite']);
     $idproduit=$client['idproduit'];
     $nomPhoto=$client['photo'];
-
+    
+    session_start(); 
     $requeteF="select * from produit";
     $resultatF=$pdo->query($requeteF);
-
-    session_start(); 
             // Récupérer le nouveau nom et prénom du client sélectionné
             $nouveauNomClient = $client['nom'];
             $nouveauPrenomClient = $client['prenom'];

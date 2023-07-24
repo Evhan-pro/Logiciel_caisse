@@ -18,31 +18,6 @@ $requeteclient = "SELECT idclient, nom, prenom, photo, civilite
 $resultatclient = $pdo->query($requeteclient);
 $clients = $resultatclient->fetchAll();
 
-// Trouver l'index du client en première place
-$firstClientIndex = null;
-foreach ($clients as $index => $client) {
-    if ($client['idclient'] == $firstClientId) {
-        $firstClientIndex = $index;
-        break;
-    }
-}
-
-// Déplacer le client en première place dans un nouvel array
-$firstClient = null;
-if ($firstClientIndex !== null) {
-    $firstClient = $clients[$firstClientIndex];
-    unset($clients[$firstClientIndex]);
-    array_unshift($clients, $firstClient);
-}
-
-// Enlever une position à l'ensemble des clients
-foreach ($clients as &$client) {
-    $client['position']--;
-}
-
-// Calculer le nombre total de clients après le déplacement
-$nbrclient = count($clients);
-
 // Pagination
 $requeteCount = "SELECT COUNT(*) countS FROM client
                 WHERE nom LIKE '%$nomPrenom%' OR prenom LIKE '%$nomPrenom%'";

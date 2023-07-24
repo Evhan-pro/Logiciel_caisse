@@ -1,6 +1,4 @@
 <?php
-    session_start(); // Début de la session
-    
     // Vérification si les données sont déjà stockées dans la session
     if (!isset($_SESSION['idClient']) || !isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
         // Récupération des données depuis la base de données
