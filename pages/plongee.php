@@ -8,20 +8,27 @@
     <?php
         require_once('identifier.php');
         require_once('connexiondb.php');
-        include('header.php');
-
+        require_once('header.php');
+        
         session_start();
-                // Récupérer le nouveau nom et prénom du client sélectionné
-                $nouveauNomClient = $client['nom'];
-                $nouveauPrenomClient = $client['prenom'];
-                $nouvelID = $client['idclient'];
-                
-            
-                // Mettre à jour les variables de session
-                $_SESSION['nomClient'] = $nouveauNomClient;
-                $_SESSION['prenomClient'] = $nouveauPrenomClient;
-                $_SESSION['Idclient'] = $nouvelID;
-                $_SESSION['produitsSelectionnes'] = $produitsSelectionnes;
+        
+        // Requête pour récupérer les informations du client à partir de la base de données
+        $requeteClient = "SELECT * FROM client WHERE idclient = " . $_SESSION['idClient'];
+        $resultatClient = $pdo->query($requeteClient);
+        $client = $resultatClient->fetch();
+        
+        // Assurez-vous que le client est trouvé avant de mettre à jour les variables de session
+        if ($client) {
+            // Récupérer le nouveau nom et prénom du client sélectionné
+            $nouveauNomClient = $client['nom'];
+            $nouveauPrenomClient = $client['prenom'];
+            $nouvelID = $client['idclient'];
+        
+            // Mettre à jour les variables de session
+            $_SESSION['nomClient'] = $nouveauNomClient;
+            $_SESSION['prenomClient'] = $nouveauPrenomClient;
+            $_SESSION['Idclient'] = $nouvelID;
+        }
     
        
         $nomp = isset($_GET['nomP']) ? $_GET['nomP'] : "";

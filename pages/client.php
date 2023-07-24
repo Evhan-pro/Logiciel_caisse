@@ -8,8 +8,6 @@ $size = isset($_GET['size']) ? $_GET['size'] : 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($page - 1) * $size;
 
-$firstClientId = isset($_GET['idS']) ? $_GET['idS'] : 0;
-
 $requeteclient = "SELECT idclient, nom, prenom, photo, civilite 
                 FROM client WHERE nom LIKE '%$nomPrenom%' OR prenom LIKE '%$nomPrenom%'
                 LIMIT $size      
@@ -89,12 +87,7 @@ $nbrPage = ceil($nbrclientTotal / $size);
                     </thead>
 
                     <tbody>
-                        <?php foreach ($clients as $client) { ?>
-                            <?php if ($client['idclient'] == $firstClientId) { ?>
-                                <tr id="client-<?php echo $client['idclient'] ?>">
-                            <?php } else { ?>
-                                <tr>
-                            <?php } ?>
+                        <?php foreach ($clients as $client) { ?>      
                                 <td><?php echo $client['nom'] ?> </td>
                                 <td><?php echo $client['prenom'] ?> </td> 
                                 <td>
