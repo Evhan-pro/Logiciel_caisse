@@ -1,6 +1,19 @@
 <?php
 require_once('identifier.php');
 require_once("connexiondb.php");
+
+session_start();
+
+// Réinitialiser les variables de session à zéro si nécessaire
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && basename($_SERVER['PHP_SELF']) === 'client.php') {
+    // Vous pouvez également vérifier si un paramètre d'URL spécifique est présent pour effectuer la réinitialisation uniquement lorsque nécessaire
+    // if (isset($_GET['reset']) && $_GET['reset'] === 'true') {
+        $_SESSION['idClient'] = 0;
+        $_SESSION['nom'] = '';
+        $_SESSION['prenom'] = '';
+    // }
+} 
+
 $nomPrenom = isset($_GET['nomPrenom']) ? $_GET['nomPrenom'] : "";
 $idproduit = isset($_GET['idproduit']) ? $_GET['idproduit'] : 0;
 
@@ -132,30 +145,6 @@ $nbrPage = ceil($nbrclientTotal / $size);
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function() {
-  $('.move-to-top').click(function(e) {
-    e.preventDefault();
-    var clientId = $(this).attr('href').split('idS=')[1];
-    var clientRow = $('#client-' + clientId);
-    var firstRow = $('tbody tr:first');
-
-    // Si le client cliqué n'est pas déjà en haut de la liste
-    if (!clientRow.hasClass('present')) {
-      // Insérer le client cliqué à la deuxième place
-      clientRow.insertAfter(firstRow);
-
-      // Mettre à jour la classe 'present' du premier client
-      firstRow.removeClass('present');
-      firstRow.find('.move-to-top').removeClass('present');
-
-      // Mettre à jour la classe 'present' du client cliqué
-      clientRow.addClass('present');
-      clientRow.find('.move-to-top').addClass('present');
-    }
-  });
-});
-</script>
 
 </body>
 </HTML>

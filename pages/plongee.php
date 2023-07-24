@@ -10,7 +10,7 @@
         require_once('connexiondb.php');
         require_once('header.php');
         
-        session_start();
+
         
         // Requête pour récupérer les informations du client à partir de la base de données
         $requeteClient = "SELECT * FROM client WHERE idclient = " . $_SESSION['idClient'];

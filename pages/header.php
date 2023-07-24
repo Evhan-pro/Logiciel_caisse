@@ -13,29 +13,23 @@
     <?php endforeach; endif ?>
 
     <?php 
-    require_once('identifier.php');
     require_once('connexiondb.php'); // Inclure le fichier de connexion à la base de données
-
-// Vérifier si la connexion à la base de données est établie
+    // Vérifier si la connexion à la base de données est établie
 if (!$pdo) {
     die('Erreur : impossible de se connecter à la base de donnée');
 }
+    require_once('identifier.php');
     require_once('session.php');
-    $idS = isset($_GET['idS']) ? $_GET['idS'] : 0;
-    $requeteS="select * from client where idclient=$idS";
-    $resultatS=$pdo->query($requeteS);
-    if (!$resultatS) {
-        // Afficher l'erreur si la requête a échoué
-        die('Erreur SQL : ' . $pdo->errorInfo()[2]);
-    }
-    $client=$resultatS->fetch();
+
+
+    $idS = $_GET['idS'] ?? 0;
+    $requeteClient = "SELECT * FROM client WHERE idclient = " . $_SESSION['idClient'];
+    $resultatClient = $pdo->query($requeteClient);
+    $client = $resultatClient->fetch();
     $nom=$client['nom'];
     $prenom=$client['prenom'];
     $civilite=strtoupper($client['civilite']);
-    $idproduit=$client['idproduit'];
-    $nomPhoto=$client['photo'];
 
-    session_start(); 
     $requeteF="select * from produit";
     $resultatF=$pdo->query($requeteF);
             // Récupérer le nouveau nom et prénom du client sélectionné
