@@ -17,7 +17,6 @@
         // Fermeture de la connexion à la base de données
         $pdo = null;
     }
-    
     // Récupération de l'ID du client, du nom et du prénom depuis la session
     $idClient = $_SESSION['idClient'];
     $nomClient = $_SESSION['nom'];

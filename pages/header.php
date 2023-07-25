@@ -11,7 +11,6 @@
     <?php if(isset($stylesheets)):foreach($stylesheets as $stylesheet): ?>
         <link rel="stylesheet" href=<?php echo($stylesheet) ?>>
     <?php endforeach; endif ?>
-
     <?php 
     require_once('connexiondb.php'); // Inclure le fichier de connexion à la base de données
     // Vérifier si la connexion à la base de données est établie
@@ -20,7 +19,6 @@ if (!$pdo) {
 }
     require_once('identifier.php');
     require_once('session.php');
-
 
     $idS = $_GET['idS'] ?? 0;
     $requeteClient = "SELECT * FROM client WHERE idclient = " . $_SESSION['idClient'];
@@ -42,7 +40,6 @@ if (!$pdo) {
             $_SESSION['prenomClient'] = $nouveauPrenomClient;
             $_SESSION['IDclient'] = $nouvelID;
 ?>
-    
 
     <script>
             jQuery(function(){
@@ -59,7 +56,6 @@ if (!$pdo) {
             });
 </script>
 </head>
-
 
     <!--Début Header-->
     <header class="header" data-header>
@@ -89,5 +85,4 @@ if (!$pdo) {
 <div class="btn">
    <img src="images/fleche_haut.png" class="icone" >
 </div>
-
 </body>

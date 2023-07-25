@@ -69,7 +69,6 @@
         <div id="total"></div>
         <button class="enregistrer" type="submit" onclick="sendSelectedProducts()">Valider</button>
     </div>
-    
     <div class="page_famille">
         <h2 id="famille">Gonflage</h2>
         <div class="ligne">

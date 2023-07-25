@@ -9,8 +9,7 @@ $motDePasse = "root";
 $nomBaseDeDonnees = "bdd";
 $port = 3306;
 
-
-try {²
+try {
     $connexion = new PDO("mysql:host=$serveur;dbname=$nomBaseDeDonnees", $utilisateur, $motDePasse, $port);
     $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -38,7 +37,6 @@ try {²
 } catch (PDOException $e) {
     echo "Erreur : " . $e->getMessage();
 }
-
 // Fermer la connexion à la base de données
 $connexion = null;
 ?>

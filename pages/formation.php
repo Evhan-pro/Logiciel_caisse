@@ -57,7 +57,6 @@
         }
 
         $resultatF = $pdo->query($requete);
-    
         $resultatCount = $pdo->query($requeteCount);
         $tabCount = $resultatCount->fetch();
         $nbrproduit = $tabCount['countF'];

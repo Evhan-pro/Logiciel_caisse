@@ -107,7 +107,6 @@ $nbrPage = ceil($nbrclientTotal / $size);
                                     <img src="../images/<?php echo $client['photo']?>"
                                     width="50px" height="50px" class="img-circle">
                                 </td> 
-
                                 <?php if ($_SESSION['user']['role']== 'ADMIN') {?>
                                     <td>
                                         <a href="editerclient.php?idS=<?php echo $client['idclient'] ?>">
@@ -125,7 +124,6 @@ $nbrPage = ceil($nbrclientTotal / $size);
                                         <a class="present" href="client.php?page=<?php echo $page ?>&nomPrenom=<?php echo $nomPrenom ?>&idS=<?php echo $client['idclient'] ?>">Présent</a>
                                     </td>
                                 <?php }?>
-
                              </tr>
                          <?php } ?>
                     </tbody>
@@ -145,6 +143,5 @@ $nbrPage = ceil($nbrclientTotal / $size);
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 </body>
 </HTML>
