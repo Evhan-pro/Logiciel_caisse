@@ -4,34 +4,26 @@
     <link rel="stylesheet" href="../css/famille.css">
 </head>
 <body>
-<h4><?php echo $nouveauNomClient . ' ' . $nouveauPrenomClient; ?></h4>
     <?php
         require_once('identifier.php');
         require_once('connexiondb.php');
-        require_once('header.php');
-        
-        // Requête pour récupérer les informations du client à partir de la base de données
-        $requeteClient = "SELECT * FROM client WHERE idclient = " . $_SESSION['idClient'];
-        $resultatClient = $pdo->query($requeteClient);
-        $client = $resultatClient->fetch();
-        
-        // Assurez-vous que le client est trouvé avant de mettre à jour les variables de session
-        if ($client) {
-            // Récupérer le nouveau nom et prénom du client sélectionné
-            $nouveauNomClient = $client['nom'];
-            $nouveauPrenomClient = $client['prenom'];
-            $nouvelID = $client['idclient'];
-        
-            // Mettre à jour les variables de session
-            $_SESSION['nomClient'] = $nouveauNomClient;
-            $_SESSION['prenomClient'] = $nouveauPrenomClient;
-            $_SESSION['Idclient'] = $nouvelID;
-        }
+        include('header.php');
+
+        session_start();
+
+        // Récupérer le nouveau nom et prénom du client sélectionné
+        $nouveauNomClient = $client['nom'];
+        $nouveauPrenomClient = $client['prenom'];
+        $nouvelID = $client['idclient'];
     
-       
+        // Mettre à jour les variables de session
+        $_SESSION['nomClient'] = $nouveauNomClient;
+        $_SESSION['prenomClient'] = $nouveauPrenomClient;
+        $_SESSION['IdClient'] = $nouvelID;
+        $_SESSION['produitsSelectionnes'] = $produitsSelectionnes;
+        
         $nomp = isset($_GET['nomP']) ? $_GET['nomP'] : "";
         $famille = isset($_GET['famille']) ? $_GET['famille'] : "plongee";
-        
         $size = isset($_GET['size']) ? $_GET['size'] : 6;
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $offset = ($page - 1) * $size;
@@ -73,7 +65,7 @@
             
 
 $stmt = $pdo->prepare($requeteProduitsSelectionnes);
-$stmt->bindParam(':idClient', $_SESSION['idClient']);
+$stmt->bindParam(':idClient', $_SESSION['IdClient']);
 $stmt->execute();
 
 $produitsSelectionnes = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -127,7 +119,6 @@ $produitsSelectionnes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div id="quantite-<?php echo $produit['idproduit']; ?>"></div>
             </div>
         <?php endforeach; ?>
-    </div>
 </div>
 <script>
 // Mettre à jour l'affichage des produits sélectionnés
