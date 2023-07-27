@@ -11,9 +11,9 @@
     <?php if(isset($stylesheets)):foreach($stylesheets as $stylesheet): ?>
         <link rel="stylesheet" href=<?php echo($stylesheet) ?>>
     <?php endforeach; endif ?>
+
     <?php 
-    require_once('connexiondb.php'); // Inclure le fichier de connexion à la base de données
-    // Vérifier si la connexion à la base de données est établie
+    require_once('connexiondb.php'); // Inclure le fichier de connexion à la base de données// Vérifier si la connexion à la base de données est établie
 if (!$pdo) {
     die('Erreur : impossible de se connecter à la base de donnée');
 }
@@ -21,9 +21,9 @@ if (!$pdo) {
     require_once('session.php');
 
     $idS = $_GET['idS'] ?? 0;
-    $requeteClient = "SELECT * FROM client WHERE idclient = " . $_SESSION['idClient'];
-    $resultatClient = $pdo->query($requeteClient);
-    $client = $resultatClient->fetch();
+$requeteS = "select * from client where idclient=$idS";
+$resultatS = $pdo->query($requeteS);
+$client = $resultatS->fetch();
     $nom=$client['nom'];
     $prenom=$client['prenom'];
     $civilite=strtoupper($client['civilite']);
@@ -38,51 +38,27 @@ if (!$pdo) {
             // Mettre à jour les variables de session
             $_SESSION['nomClient'] = $nouveauNomClient;
             $_SESSION['prenomClient'] = $nouveauPrenomClient;
-            $_SESSION['IDclient'] = $nouvelID;
+            $_SESSION['IdClient'] = $nouvelID;
 ?>
 
-    <script>
-            jQuery(function(){
-                $(function () {
-                    $(window).scroll(function () {
-                        if ($(this).scrollTop() > 200 ) { 
-                            $('#scrollUp').css('right','10px');
-                        } else { 
-                            $('#scrollUp').removeAttr( 'style' );
-                        }
- 
-                    });
-                });
-            });
-</script>
 </head>
-
     <!--Début Header-->
     <header class="header" data-header>
-        <a href="client.php"><h4><?php echo $nouveauNomClient . ' ' . $nouveauPrenomClient; ?></h4>
-</a>
+        <a href="client.php"><h4><?php echo $nouveauNomClient . ' ' . $nouveauPrenomClient; ?></h4></a>
         <div class="container">
-        <div class="home">
-        <img src="images/logo.png" width="15%">
-        <ul class="menu cf">
-            <li class="plongee"><a href="plongee.php">Plongée</a></li>
-            <li class="gonflage"><a href="gonflage.php">Gonflage</a></li>
-            <li class="carte"><a href="carte.php">Carte</a></li>
-            <li class="restaurant"><a href="restaurant.php">Restaurant</a></li>
-            <li class="formation"><a href="formation.php">Formation</a></li>
-            <li class="hebergement"><a href="hebergement.php">Hébergement</a></li>
-            <li class="boutique"><a href="boutique.php">Boutique</a></li>
-        </ul>
-    </div>
-        <div class="recouvrir" data-nav-toggler data-recouvrir></div>
-
+            <div class="home">
+                <img src="images/logo.png" width="15%">
+                <ul class="menu cf">
+                    <li class="plongee"><a href="plongee.php">Plongée</a></li>
+                    <li class="gonflage"><a href="gonflage.php">Gonflage</a></li>
+                    <li class="carte"><a href="carte.php">Carte</a></li>
+                    <li class="restaurant"><a href="restaurant.php">Restaurant</a></li>
+                    <li class="formation"><a href="formation.php">Formation</a></li>
+                    <li class="hebergement"><a href="hebergement.php">Hébergement</a></li>
+                    <li class="boutique"><a href="boutique.php">Boutique</a></li>
+                </ul>
+            </div>
+            <div class="recouvrir" data-nav-toggler data-recouvrir></div>
         </div>
     </header>
 <!--Fin Header-->
-
-<!-- Début flèche retour vers le haut -->
-<body>
-<div class="btn">
-   <img src="images/fleche_haut.png" class="icone" >
-</div>
-</body>
