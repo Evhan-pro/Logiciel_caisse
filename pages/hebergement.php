@@ -182,7 +182,6 @@
             inputElement.value++;
             updateQuantite(productId);
         }
-
         function sendSelectedProducts() {
             var selectedProductsJson = JSON.stringify(produitsSelectionnes);
 

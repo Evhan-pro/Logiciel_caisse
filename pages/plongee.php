@@ -5,11 +5,10 @@
 </head>
 <body>
     <?php
+    session_start();
         require_once('identifier.php');
         require_once('connexiondb.php');
         include('header.php');
-
-        session_start();
 
         // Récupérer le nouveau nom et prénom du client sélectionné
         $nouveauNomClient = $client['nom'];
@@ -20,7 +19,6 @@
         $_SESSION['nomClient'] = $nouveauNomClient;
         $_SESSION['prenomClient'] = $nouveauPrenomClient;
         $_SESSION['IdClient'] = $nouvelID;
-        $_SESSION['produitsSelectionnes'] = $produitsSelectionnes;
         
         $nomp = isset($_GET['nomP']) ? $_GET['nomP'] : "";
         $famille = isset($_GET['famille']) ? $_GET['famille'] : "plongee";
@@ -56,7 +54,6 @@
         else{
             $nbrPage = floor($nbrproduit / $size) + 1;
         }
-
             // Requête pour récupérer les produits sélectionnés du client connecté
             $requeteProduitsSelectionnes = "SELECT p.idproduit, p.nomproduit, ps.quantite, ps.prix
             FROM produits_selectionnes ps
@@ -69,6 +66,7 @@ $stmt->bindParam(':idClient', $_SESSION['IdClient']);
 $stmt->execute();
 
 $produitsSelectionnes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$_SESSION['produitsSelectionnes'] = $produitsSelectionnes;
     ?>
 <script>
     data = <?php echo json_encode($produitsSelectionnes); ?>;

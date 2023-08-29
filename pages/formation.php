@@ -55,7 +55,6 @@
                              WHERE nomproduit LIKE '%$nomp%'
                              AND famille = '$famille'";
         }
-
         $resultatF = $pdo->query($requete);
         $resultatCount = $pdo->query($requeteCount);
         $tabCount = $resultatCount->fetch();

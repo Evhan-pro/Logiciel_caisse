@@ -31,7 +31,6 @@
        
         $nomp = isset($_GET['nomP']) ? $_GET['nomP'] : "";
         $famille = isset($_GET['famille']) ? $_GET['famille'] : "restaurant";
-        
         $size = isset($_GET['size']) ? $_GET['size'] : 6;
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $offset = ($page - 1) * $size;

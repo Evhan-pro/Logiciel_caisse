@@ -2,7 +2,7 @@
 error_reporting()
 
 
-// Connexion à la base de données (remplacez les valeurs par celles de votre configuration)
+// Connexion à la base de données 
 $serveur = "localhost";
 $utilisateur = "root";
 $motDePasse = "root";
