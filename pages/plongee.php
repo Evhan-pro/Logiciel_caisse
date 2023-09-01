@@ -129,9 +129,7 @@ function updateQuantite(productId) {
 
     var quantity = parseInt(inputElement.value);
     var produitExistant = produitsSelectionnes.find(produit => produit.id == productId);
-    if (produitExistant) {
-        
-        
+    if (produitExistant) {  
         produitExistant.quantite = parseInt(quantity);
     } else {
         var nomProduit = produitElement.textContent;
@@ -220,7 +218,7 @@ function increment(productId) {
 }
 
 function sendSelectedProducts() {
-    var produitsSelectionnes = <?php echo json_encode($produitsSelectionnes); ?>;
+
     
     // Vérifier si la liste des produits sélectionnés est vide
     if (produitsSelectionnes.length === 0) {

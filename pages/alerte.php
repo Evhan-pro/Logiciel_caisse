@@ -19,9 +19,7 @@
         <div class="container margetop60">
            
                 <div class="alert alert-danger">
-                
                     <h4><?php echo $message ?></h4> 
-                                      
                 </div>
                 
                 <br><br>

@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && basename($_SERVER['PHP_SELF']) === '
 
 $nomPrenom = isset($_GET['nomPrenom']) ? $_GET['nomPrenom'] : "";
 $idproduit = isset($_GET['idproduit']) ? $_GET['idproduit'] : 0;
-
 $size = isset($_GET['size']) ? $_GET['size'] : 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($page - 1) * $size;
