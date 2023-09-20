@@ -11,7 +11,6 @@
     $stmt = $pdo->prepare($requeteProduitsSelectionnes);
     $stmt->bindParam(':idClient', $_SESSION['idClient']);
     $stmt->execute();
-
     $produitsSelectionnes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Convertir les résultats en JSON

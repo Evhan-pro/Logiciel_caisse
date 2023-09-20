@@ -1,61 +1,9 @@
-<?php
-    //require_once('identifier.php');
-?>
-
-<nav class="navbar navbar-inverse navbar-fixed-top">
-
-	<div class="container-fluid">
-	
-		<div class="navbar-header">
-		
-			<a href="../index.php" class="navbar-brand">Gestion des clients</a>
-			
-		</div>
-		
-		<ul class="nav navbar-nav">
-					
-			<li><a href="client.php">
-                    <i class="fa fa-vcard"></i>
-                    &nbsp Les clients
-                </a>
-            </li>
-			
-			<li><a href="produit.php">
-                    <i class="fa fa-tags"></i>
-                    &nbsp Les Produits
-                </a>
-            </li>
-			
-			<?php if ($_SESSION['user']['role']=='ADMIN') {?>
-					
-				<li><a href="Utilisateurs.php">
-                        <i class="fa fa-users"></i>
-                        &nbsp Les utilisateurs
-                    </a>
-                </li>
-				
-			<?php }?>
-			
-		</ul>
-		
-		
-		<ul class="nav navbar-nav navbar-right">
-					
-			<li>
-				<a href="editerUtilisateur.php?id=<?php echo $_SESSION['user']['iduser'] ?>">
-                    <i class="fa fa-user-circle-o"></i>
-					<?php echo  ' '.$_SESSION['user']['login']?>
-				</a> 
-			</li>
-			
-			<li>
-				<a href="seDeconnecter.php">
-                    <i class="fa fa-sign-out"></i>
-					&nbsp Se déconnecter
-				</a>
-			</li>
-							
-		</ul>
-		
-	</div>
-</nav>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#6b73a0" fill-opacity="0.5" d="M0,96L60,133.3C120,171,240,245,360,245.3C480,245,600,171,720,154.7C840,139,960,181,1080,181.3C1200,181,1320,139,1380,117.3L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+<nav class="menu">
+        <ul>
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#">Toilettes disponibles</a></li>
+            <li><a href="#">À propos</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>

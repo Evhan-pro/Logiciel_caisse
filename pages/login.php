@@ -9,7 +9,6 @@ session_destroy();
 ?>
 <! DOCTYPE HTML>
 <HTML>
-
 <head>
     <meta charset="utf-8">
     <title>Se connecter</title>
