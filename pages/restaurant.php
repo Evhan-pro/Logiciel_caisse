@@ -40,7 +40,6 @@
                         WHERE nomproduit LIKE '%$nomp%'
                         LIMIT $size
                         OFFSET $offset";
-            
             $requeteCount = "SELECT COUNT(*) AS countF FROM produit
                              WHERE nomproduit LIKE '%$nomp%'";
         } else {

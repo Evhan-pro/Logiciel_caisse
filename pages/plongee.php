@@ -139,9 +139,7 @@ function updateQuantite(productId) {
             nom: nomProduit,
             quantite: quantity,
             prix: parseFloat(prixElement.textContent)
-        });
-      
-        
+        });      
     }
     console.log('produitExistant');
     console.log(produitExistant);

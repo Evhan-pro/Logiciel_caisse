@@ -18,7 +18,6 @@ session_destroy();
 </head>
 
 <body>
-    
         <div class="container col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
             <div class="panel panel-primary margetop60">
                 <div class="panel-heading">Se connecter :</div>

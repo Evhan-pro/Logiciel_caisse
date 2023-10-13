@@ -15,7 +15,6 @@
         <link rel="stylesheet" type="text/css" href="../css/monstyle.css">
     </head>
     <body>
-        
         <div class="container margetop60">
            
                 <div class="alert alert-danger">

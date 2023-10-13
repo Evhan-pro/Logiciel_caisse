@@ -20,7 +20,6 @@
             $nouveauNomClient = $client['nom'];
             $nouveauPrenomClient = $client['prenom'];
             $nouvelID = $client['idclient'];
-        
             // Mettre à jour les variables de session
             $_SESSION['nomClient'] = $nouveauNomClient;
             $_SESSION['prenomClient'] = $nouveauPrenomClient;

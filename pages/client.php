@@ -3,7 +3,6 @@ require_once('identifier.php');
 require_once("connexiondb.php");
 
 session_start();
-
 // Réinitialiser les variables de session à zéro si nécessaire
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && basename($_SERVER['PHP_SELF']) === 'client.php') {
     // Vous pouvez également vérifier si un paramètre d'URL spécifique est présent pour effectuer la réinitialisation uniquement lorsque nécessaire

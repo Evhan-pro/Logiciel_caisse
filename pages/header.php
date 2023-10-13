@@ -59,7 +59,6 @@ if (isset($_SESSION['idClient'])) {
 <?php if (isset($_SESSION['nomClient']) && isset($_SESSION['prenomClient'])) : ?>
     <p>Bienvenue, <?php echo $_SESSION['prenomClient'] . ' ' . $_SESSION['nomClient']; ?></p>
 <?php endif; ?>
-
 </head>
     <!--Début Header-->
     <header class="header" data-header>

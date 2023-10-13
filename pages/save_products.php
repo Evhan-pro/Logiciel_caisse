@@ -17,7 +17,6 @@ try {
     // Récupérer les données des produits sélectionnés envoyées en tant que JSON
     $produitsSelectionnesJson = file_get_contents('php://input');
     $produitsSelectionnes = json_decode($produitsSelectionnesJson, true);
-
     // Parcourir la liste des produits sélectionnés et les enregistrer dans la base de données
     foreach ($produitsSelectionnes as $produit) {
         $idProduit = $produit['id'];

@@ -194,7 +194,6 @@
                     alert(xhr.responseText);
                 }
             };
-
             xhr.send(selectedProductsJson);
         }
     </script>
